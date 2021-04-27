@@ -58,11 +58,15 @@ public class Evento {
 	public void setTimeMinute(int timeMinute) {
 		this.timeMinute = timeMinute;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + customerAffected;
+		result = prime * result + ((date_event_began == null) ? 0 : date_event_began.hashCode());
+		result = prime * result + ((date_event_finished == null) ? 0 : date_event_finished.hashCode());
+		result = prime * result + timeMinute;
 		return result;
 	}
 	@Override
@@ -74,7 +78,19 @@ public class Evento {
 		if (getClass() != obj.getClass())
 			return false;
 		Evento other = (Evento) obj;
-		if (id != other.id)
+		if (customerAffected != other.customerAffected)
+			return false;
+		if (date_event_began == null) {
+			if (other.date_event_began != null)
+				return false;
+		} else if (!date_event_began.equals(other.date_event_began))
+			return false;
+		if (date_event_finished == null) {
+			if (other.date_event_finished != null)
+				return false;
+		} else if (!date_event_finished.equals(other.date_event_finished))
+			return false;
+		if (timeMinute != other.timeMinute)
 			return false;
 		return true;
 	}
