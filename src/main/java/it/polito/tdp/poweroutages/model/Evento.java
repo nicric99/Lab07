@@ -97,8 +97,10 @@ public class Evento {
 	@Override
 	public String toString() {
 		return "Evento [id=" + id + ", customerAffected=" + customerAffected + ", nerc_id=" + nerc_id
-				+ ", date_event_began=" + date_event_began + ", date_event_finished=" + date_event_finished + "]";
+				+ ", date_event_began=" + date_event_began + ", date_event_finished=" + date_event_finished
+				+ ", timeMinute=" + timeMinute + "]";
 	}
+
 	
 	
 }

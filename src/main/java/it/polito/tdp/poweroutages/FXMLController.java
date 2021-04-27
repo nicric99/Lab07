@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.poweroutages.model.Evento;
 import it.polito.tdp.poweroutages.model.Model;
 import it.polito.tdp.poweroutages.model.Nerc;
 import javafx.collections.FXCollections;
@@ -43,6 +45,29 @@ public class FXMLController {
     @FXML
     void doRun(ActionEvent event) {
     	txtResult.clear();
+    	Nerc nerc= cmbNerc.getValue();
+    	List<Evento> risultato;
+    	int maxAnni=0;
+    	int maxOre=0;
+    	try {
+    	maxAnni=Integer.parseInt(txtYears.getText());
+    	maxOre=Integer.parseInt(txtHours.getText());
+    	}catch(NullPointerException npe) {
+    		txtResult.setText("Attenzione campo vuoto");
+    		return;
+    	}catch(NumberFormatException nfe) {
+    		txtResult.setText("Attenzione numeri non validi inserire i numeri interi");
+    		return;
+    	}
+    	risultato= new ArrayList(model.getOptimalSolution(nerc, maxAnni, maxOre));
+    	if(risultato.isEmpty()) {
+    		txtResult.setText("Nessun evento per questi requisiti");
+    	}
+    	for(Evento e:risultato) {
+    		txtResult.appendText(e.toString());
+    		txtResult.appendText("\n");
+    	}
+    	txtResult.appendText("Ore totali = "+model.oretot(risultato)+"\n");
     }
     void loadData() {
     	list.clear();

@@ -52,6 +52,16 @@ public class Model {
 			}
 		}
 		}
+		// questo è utilizzato per gestire i casi di un solo caso avvenuto
+		if(parziale.size()==1) {
+			if(this.isValid(parziale, maxYears, maxHours)) {
+			int personeCoinvolteTmp= this.getPersoneCoinvolte(parziale);
+			if(personeCoinvolteTmp> this.personeCoinvolte) {
+				soluzioneMigliore= new ArrayList(parziale);
+				this.personeCoinvolte=personeCoinvolteTmp;
+				this.oretotali= this.oretot(parziale);
+			}}
+		}
 		if(l==partenza.size()) {
 			return;
 		}
@@ -68,7 +78,7 @@ public class Model {
 	
 	private boolean isValid(List<Evento> parziale,int maxYears,int maxHours) {
 		
-		
+		if(parziale.size()>1) {
 		long daysBetween=ChronoUnit.DAYS.between(parziale.get(0).getDate_event_began(),parziale.get(parziale.size()-1).getDate_event_finished());
 		double years=(double) daysBetween/365;
 		if(years>maxYears) {
@@ -86,9 +96,21 @@ public class Model {
 			return false;
 		}
 		return true;
+		}else {
+			double sum=0;
+			for(Evento e:parziale) {
+				sum=sum+ e.getTimeMinute();
+			}
+			double tempo=(double)sum/60;
+			if(tempo> maxHours) {
+				return false;
+			}
+			return true;
+			
+		}
 		
 	}
-	private double oretot(List<Evento> parziale) {
+	public double oretot(List<Evento> parziale) {
 		double sum=0;
 		for(Evento e:parziale) {
 			sum=sum+ e.getTimeMinute();
