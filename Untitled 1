@@ -1,0 +1,35 @@
+I vincoli esempio del racksack
+- ore totali disservizio< Y
+- anni differenza tra fine deve essere sempre minore del valore X
+massimizzare le persone coinvolte
+
+
+SELECT TIMESTAMPDIFF(MINUTE,date_event_began,date_event_finished) AS tempo,date_event_finished,date_event_began
+FROM poweroutages
+WHERE nerc_id=14 AND TIMESTAMPDIFF(MINUTE,date_event_began,date_event_finished)<50
+
+Il conteggio anni differenza rispetto a X verrà svolto per le condizioni del loop di uscita con una query successiva
+
+
+
+SELECT TIMESTAMPDIFF(MINUTE,date_event_began,date_event_finished) AS tempo,date_event_finished,date_event_began,nerc_id
+FROM poweroutages
+WHERE nerc_id=14 
+
+
+SELECT TIMESTAMPDIFF(MINUTE,date_event_began,date_event_finished) AS tempo,date_event_finished,date_event_began,nerc_id,
+n.value
+FROM poweroutages,nerc AS n
+WHERE nerc_id=14 AND poweroutages.nerc_id=n.id
+
+Ordinarli sembra una buona idea per la realizzazione dell'algoritmo del racksack così si vede subito confrontando il primo con 
+l'ultimo elemento della lista per capira le date.
+
+SELECT TIMESTAMPDIFF(MINUTE,date_event_began,date_event_finished) AS tempo,date_event_finished,date_event_began,nerc_id,
+n.value
+FROM poweroutages,nerc AS n
+WHERE nerc_id=14 AND poweroutages.nerc_id=n.id
+ORDER BY date_event_began
+
+controlli da fare devono tenere conto della sol, aggiungo un evento, controllo se la sol rispetta i vincoli, se si rilancio ricorsione, se no faccio backtracking
+ 

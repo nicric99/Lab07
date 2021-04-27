@@ -5,9 +5,13 @@
 package it.polito.tdp.poweroutages;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import it.polito.tdp.poweroutages.model.Model;
 import it.polito.tdp.poweroutages.model.Nerc;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -15,7 +19,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class FXMLController {
-
+	ObservableList list= FXCollections.observableArrayList();
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -34,11 +38,17 @@ public class FXMLController {
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
 
-    private Model model;
+    private Model model= new Model();
     
     @FXML
     void doRun(ActionEvent event) {
     	txtResult.clear();
+    }
+    void loadData() {
+    	list.clear();
+    	List<Nerc> lista= new ArrayList<>(this.model.getNercList());
+    	this.list.addAll(lista);
+    	cmbNerc.getItems().addAll(lista);
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -47,6 +57,7 @@ public class FXMLController {
         assert txtYears != null : "fx:id=\"txtYears\" was not injected: check your FXML file 'Scene.fxml'.";
         assert txtHours != null : "fx:id=\"txtHours\" was not injected: check your FXML file 'Scene.fxml'.";
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
+        loadData();
         
         // Utilizzare questo font per incolonnare correttamente i dati;
         txtResult.setStyle("-fx-font-family: monospace");
